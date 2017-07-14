@@ -1,11 +1,20 @@
 import React, {Component, Text} from 'react';
+import Sidebar from 'react-sidebar';
+
+
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: 'Relevant Page Information:'
+      message: 'Relevant Page Information:',
+      sidebarOpen: true
     }
+    this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
+  }
+
+  onSetSidebarOpen(open) {
+    this.setState({sidebarOpen: open});
   }
 
   getMetadata(name) {
@@ -29,13 +38,6 @@ class App extends Component {
 }
 
   componentDidMount() {
-    setInterval(() => {
-      this.setState({
-        count: this.state.count + 1
-      });
-    }, 1000);
-    console.log('hi');
-    console.log(document.baseURI);
     let title = this.getMetadata('title');
     if (!title) {
       title = this.getMetadataOG('og:title');
@@ -51,17 +53,16 @@ class App extends Component {
   }
 
   render() {
+    var sidebarContent = <b>Sidebar content</b>;
     return (
-      <div style={{position: 'fixed', zIndex: 9999, backgroundColor: 'white'}}>
-        <h3>{this.state.message}</h3>
-        <h3>URL: {document.baseURI}</h3>
-        <h3>Title: {this.state.title}</h3>
-        <h3>Description: {this.state.description}</h3>
-        <h3>Keywords: {this.state.keywords}</h3>
-        <div> </div>
-        <div> </div>
-        <div> </div>
-      </div>
+      <div>
+      <Sidebar sidebar={sidebarContent}
+         open={this.state.sidebarOpen}
+         onSetOpen={this.onSetSidebarOpen}
+        
+      >
+      </Sidebar>
+    </div>
     );
   }
 }
