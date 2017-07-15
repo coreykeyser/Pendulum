@@ -4,6 +4,7 @@ import Footer from './Footer';
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters';
 import style from './MainSection.css';
 import $ from 'jquery';
+import Items from './algolia';
 
 const TODO_FILTERS = {
     [SHOW_ALL]: () => true,
@@ -100,7 +101,7 @@ export default class MainSection extends Component {
         chrome.tabs.query( { 'active': true, 'lastFocusedWindow': true }, ( tabs ) => {
             $.get( tabs[0].url, ( html ) => {
                 var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html')
+                var doc = parser.parseFromString( html, 'text/html' )
                 const title = this.getMetadata( 'title', doc ) || this.getMetadataOG( 'og:title', doc ) || doc.getElementsByTagName( 'title' );
                 const keywords = this.getMetadata( 'news_keywords', doc ) || this.getMetadata( 'keywords', doc ) || this.getMetadataOG( 'keywords', doc );
                 const description = this.getMetadata( 'description', doc );
@@ -129,11 +130,7 @@ export default class MainSection extends Component {
         return (
             <section className={ style.main }>
                 <div style={ { zIndex: 9999, backgroundColor: 'white' } }>
-                    <h3>{ this.state.message }</h3>
-                    <h3>URL: { this.state.url }</h3>
-                    <h3>Title: { this.state.title }</h3>
-                    <h3>Description: { this.state.description }</h3>
-                    <h3>Keywords: { this.state.keywords }</h3>
+                    {this.state.keywords ? <Items keywords={ this.state.keywords.slice().split(',').slice(0, 2).toString() } /> : <div/>}
                 </div>
             </section>
         );
