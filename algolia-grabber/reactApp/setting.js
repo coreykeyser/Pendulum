@@ -1,4 +1,4 @@
 export default {
-    rootSite: 'bloomberg.com',
-    keywords: 'trump'
+    rootSite: 'breitbart.com',
+    keywords: 'race'
 }
