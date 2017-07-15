@@ -138,11 +138,6 @@ export default class MainSection extends Component {
                 const keywords = this.getMetadata( 'news_keywords', doc ) || this.getMetadata( 'keywords', doc ) || this.getMetadataOG( 'keywords', doc );
                 const description = this.getMetadata( 'description', doc );
                 this.setState( { title, keywords, description, url: tabs[0].url } );
-                document.addEventListener( 'click', () => {
-                    this.setState( {
-                        sidebarOpen: !sidebarOpen
-                    } )
-                } )
             } ).bind( this );
         } ).bind( this );
 
@@ -158,7 +153,6 @@ export default class MainSection extends Component {
             ( count, todo ) => ( todo.completed ? count + 1 : count ),
             0
         );
-        console.log( 'start the engine' );
         var domain = this.extractRootDomain( this.state.url );
         console.log( domain );
         return (
