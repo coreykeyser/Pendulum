@@ -1,4 +1,4 @@
 export default {
-    rootSite: 'breitbart.com',
-    keywords: 'donald trump jr.'
+    rootSite: 'bloomberg.com',
+    keywords: 'trump'
 }
