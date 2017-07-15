@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    justify-content: center;
+    background-color: lightgrey;
+}
+
+#root {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    background-color: #FAE775;
+    width: 300px;
+}
+
+form button {
+    background-color: lightgray;
+    border: 1px solid black;
+    border-radius: 0px 10px 10px 0px;
+}
+
+input {
+    border: 1px solid grey;
+    border-radius: 10px 0px 0px 10px;
+}
+
+ul {
+    list-style: none;
+    background-color: #FFFEAB;
+}
+
+li button {
+    background-color: transparent;
+    border: none;
+}
