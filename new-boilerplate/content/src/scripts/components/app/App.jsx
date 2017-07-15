@@ -1,11 +1,18 @@
 import React, {Component, Text} from 'react';
+import Sidebar from 'react-sidebar';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: 'Relevant Page Information:'
+      message: 'Relevant Page Information:',
+      sidebarOpen: true
     }
+    this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
+  }
+
+  onSetSidebarOpen(open) {
+    this.setState({sidebarOpen: open});
   }
 
   getMetadata(name) {
@@ -36,32 +43,36 @@ class App extends Component {
     }, 1000);
     console.log('hi');
     console.log(document.baseURI);
-    let title = this.getMetadata('title');
-    if (!title) {
-      title = this.getMetadataOG('og:title');
-    }
-    const keywords = this.getMetadata('news_keywords');
-    if (!keywords) {
-      title = this.getMetadataOG('keywords');
-    }
+    const title = this.getMetadata('title') || this.getMetadataOG('og:title') || document.getElementsByTagName('title');
+   
+    const keywords = this.getMetadata('news_keywords') || this.getMetadata('keywords') || this.getMetadataOG('keywords');
+   
     const description = this.getMetadata('description');
     this.setState({title});
     this.setState({keywords});
     this.setState({description});
+    document.addEventListener('click', () => {
+      this.setState({
+        sidebarOpen: !sidebarOpen
+      })
+    })
   }
 
   render() {
-    return (
-      <div style={{position: 'fixed', zIndex: 9999, backgroundColor: 'white'}}>
+    var sidebarContent = 
+      <div style={{zIndex: 9999, backgroundColor: 'blue'}}>
         <h3>{this.state.message}</h3>
         <h3>URL: {document.baseURI}</h3>
         <h3>Title: {this.state.title}</h3>
         <h3>Description: {this.state.description}</h3>
         <h3>Keywords: {this.state.keywords}</h3>
-        <div> </div>
-        <div> </div>
-        <div> </div>
       </div>
+    
+    return (
+        <Sidebar sidebar={sidebarContent}
+               open={this.state.sidebarOpen}
+               onSetOpen={this.onSetSidebarOpen}>
+      </Sidebar>
     );
   }
 }
