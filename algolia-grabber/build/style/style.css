@@ -1,35 +1,158 @@
 body {
     display: flex;
     justify-content: center;
-    background-color: lightgrey;
+    background-color: 	#DC143C;
+    font-family: 'Lato', sans-serif;
 }
 
-#root {
-    margin-top: 50px;
+.container{
+    border: 1px solid #b3b3b3;
+	border-top: 0px;
+	border-bottom: 1px solid #e6e6e6;
+    padding: 5px;
+	width: 1000px;
+	color: black;
+	padding-bottom: 8px;
+	padding-top: 8px;
+    margin-bottom: 10px;
+    box-shadow: 5px 5px 2.5px #888888;
+}
+
+img {
+	width: 400px;
+	margin-right: 12px;
+	float: left;
+	color: transparent;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.base {
+  width: 500px;
+  margin: auto;
+  text-align: center;
+  position: relative;
+  padding: 0 0 30px;
+}
+
+.holder {
+  width: 30px;
+  height: 30px;
+  background: white;
+  margin: auto;
+  border-radius: 50% 50% 50% 50%;
+  border-bottom: 5px groove black;
+  border-top: 5px groove black;
+}
+
+.thread {
+  display: inline-block;
+  width: 1px;
+  height: 110px;
+  background: black;
+  border-radius: 5px;
+  position: relative;
+  transform-origin: 50% 0;
+  animation: moveIt 2.5s ease-in-out infinite;
+}
+
+.thread:after {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: lightblue;
+  border: 2px solid white;
+  top: -4.5px;
+  left: -3.5px;
+}
+
+.headers {
+    font-family: 'Noe Display', sans-serif;
+}
+
+.knob {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: -18px;
+  left: -4.5px;
+  border: 2px solid rgba(255, 255, 255, .5);
+  border-radius: 50%;
+  border-bottom: 2px solid transparent;
+}
+
+a {
+    color: black;
+    text-decoration: none;
     display: flex;
-    justify-content: center;
-    padding-top: 10px;
-    background-color: #FAE775;
-    width: 300px;
+    alignItems: 'center';
 }
 
-form button {
-    background-color: lightgray;
-    border: 1px solid black;
-    border-radius: 0px 10px 10px 0px;
+a:hover {
+    color: grey;
 }
 
-input {
-    border: 1px solid grey;
-    border-radius: 10px 0px 0px 10px;
+h2{
+    margin-bottom: 10px;
 }
 
-ul {
-    list-style: none;
-    background-color: #FFFEAB;
+.textBox{
+    align-items: 'center';
+    justify-content: 'center';
 }
 
-li button {
-    background-color: transparent;
-    border: none;
+.pendulum {
+  width: 20px;
+  height: 20px;
+  background: lightgrey;
+  border-radius: 50%;
+  position: absolute;
+  bottom: -10px;
+  left: -9px;
+  border-top: 4px double rgba(0, 0, 0, .5);
+  animation: revolve 1.25s linear infinite;
+}
+
+.shadow {
+  width: 30px;
+  height: 5px;
+  background: gray;
+  border-radius: 50%;
+  margin: 50px auto 0;
+  animation: moveShade 1.25s ease-in-out alternate infinite;
+}
+
+@keyframes moveIt {
+  0%, 100% {
+    transform: rotate(30deg);
+  }
+  50% {
+    transform: rotate(-30deg);
+  }
+}
+
+@keyframes moveShade {
+  0% {
+    transform: translateX(-50px) scale(1.4);
+    filter: blur(10px);
+  }
+  50% {
+    filter: blur(3px);
+  }
+  100% {
+    transform: translateX(50px) scale(1.4);
+    filter: blur(10px);
+  }
+}
+
+@keyframes revolve {
+  100% {
+    transform: rotate(360deg);
+  }
 }

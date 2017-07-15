@@ -7,9 +7,20 @@ import domains from './domains';
 import setting from './setting';
 var client = algoliasearch( "X7PCU0DXSK", "98acb999c0ae71e22cd9ed8e8780adae" );
 
-const Preview = ({ }) => {
+const Preview = ({ info}) => {
+    console.log(info)
     return (
-        <div></div>
+        <div className="container" style={{display:'flex', background: 'white'}}>
+            <div className="imageDiv" style={{display: 'flex', alignItems: 'center'}}>
+                {info.thread.main_image === "" || info.thread.site === "theguardian.com" ?
+                (<img src="http://cdn8.openculture.com/wp-content/uploads/2012/09/BurroughsShotgunArt.jpeg" />) : (<img src={info.thread.main_image} />)}
+            </div>
+            <div className="textBox">
+                <a href={info.url} target="/blank"><h1>{info.title}</h1></a>
+                <h2 style={{display: 'flex', justifyContent: 'center'}}>{info.thread.site}</h2>
+                <div>{info.text.substring(0, 350)}...</div>
+            </div>
+        </div>
     );
 }
 
@@ -41,11 +52,9 @@ class Items extends React.Component {
     render() {
         return (
             <div>
-                <ul>
-                    { this.state.suggestions.map( (x, idx) => (
-                        <li key={idx}>{ x.author }</li>
-                    ) ) }
-                </ul>
+                { this.state.suggestions.map( (info, idx) =>
+                    <Preview key={idx} info={info} />
+                ) }
             </div>
         );
     }
