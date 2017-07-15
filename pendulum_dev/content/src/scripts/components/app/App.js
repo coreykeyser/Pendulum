@@ -50,12 +50,12 @@ class App extends Component {
   render() {
 
     return (
-         <div style={{zIndex: 9999, backgroundColor: 'blue'}}>
-        <h3>{this.state.message}</h3>
+         <div>
+        {/* <h3>{this.state.message}</h3>
         <h3>URL: {document.baseURI}</h3>
         <h3>Title: {this.state.title}</h3>
         <h3>Description: {this.state.description}</h3>
-        <h3>Keywords: {this.state.keywords}</h3>
+        <h3>Keywords: {this.state.keywords}</h3> */}
       </div>
     );
   }

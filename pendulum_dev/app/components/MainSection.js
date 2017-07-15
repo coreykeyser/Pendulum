@@ -4,7 +4,7 @@ import Footer from './Footer';
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters';
 import style from './MainSection.css';
 import $ from 'jquery';
-import Items from './algolia';
+import {Items, Home} from './algolia';
 import parsedomain from 'parse-domain';
 
 const TODO_FILTERS = {
@@ -164,7 +164,7 @@ export default class MainSection extends Component {
         return (
             <section className={ style.main }>
                 <div style={ { zIndex: 9999, backgroundColor: 'white' } }>
-                    { this.state.keywords ? <Items dom={ domain } keywords={ this.state.keywords.slice().split( ',' ).slice( 0, 2 ).toString() } /> : <div /> }
+                    { this.state.keywords ? <Items dom={ domain } keywords={ this.state.keywords.slice().split( ',' ).slice( 0, 2 ).toString() } /> : <h1>Pendulum</h1> }
                 </div>
             </section>
         );
