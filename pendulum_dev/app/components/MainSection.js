@@ -5,6 +5,7 @@ import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters'
 import style from './MainSection.css';
 import $ from 'jquery';
 import Items from './algolia';
+import parsedomain from 'parse-domain';
 
 const TODO_FILTERS = {
     [SHOW_ALL]: () => true,
@@ -92,6 +93,37 @@ export default class MainSection extends Component {
         return "";
     }
 
+    extractHostname( url ) {
+        var hostname;
+        //find & remove protocol (http, ftp, etc.) and get hostname
+
+        if ( url.indexOf( "://" ) > -1 ) {
+            hostname = url.split( '/' )[2];
+        }
+        else {
+            hostname = url.split( '/' )[0];
+        }
+
+        //find & remove port number
+        hostname = hostname.split( ':' )[0];
+        //find & remove "?"
+        hostname = hostname.split( '?' )[0];
+
+        return hostname;
+    }
+
+    extractRootDomain( url ) {
+        var domain = this.extractHostname( url ),
+            splitArr = domain.split( '.' ),
+            arrLen = splitArr.length;
+
+        //extracting the root domain here
+        if ( arrLen > 2 ) {
+            domain = splitArr[arrLen - 2] + '.' + splitArr[arrLen - 1];
+        }
+        return domain;
+    }
+
     componentDidMount() {
         setInterval(() => {
             this.setState( {
@@ -126,11 +158,13 @@ export default class MainSection extends Component {
             ( count, todo ) => ( todo.completed ? count + 1 : count ),
             0
         );
-
+        console.log( 'start the engine' );
+        var domain = this.extractRootDomain( this.state.url );
+        console.log( domain );
         return (
             <section className={ style.main }>
                 <div style={ { zIndex: 9999, backgroundColor: 'white' } }>
-                    {this.state.keywords ? <Items keywords={ this.state.keywords.slice().split(',').slice(0, 2).toString() } /> : <div/>}
+                    { this.state.keywords ? <Items dom={ domain } keywords={ this.state.keywords.slice().split( ',' ).slice( 0, 2 ).toString() } /> : <div /> }
                 </div>
             </section>
         );
