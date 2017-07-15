@@ -3,6 +3,7 @@ import TodoItem from './TodoItem';
 import Footer from './Footer';
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters';
 import style from './MainSection.css';
+import $ from 'jquery';
 
 const TODO_FILTERS = {
     [SHOW_ALL]: () => true,
@@ -22,7 +23,8 @@ export default class MainSection extends Component {
         this.state = {
             filter: SHOW_ALL,
             message: 'Relevant Page Information:',
-            url: ''
+            url: '',
+            html: ''
         };
     }
 
@@ -70,8 +72,8 @@ export default class MainSection extends Component {
     }
 
 
-    getMetadata( name ) {
-        var metas = document.getElementsByTagName( 'meta' );
+    getMetadata( name, doc ) {
+        var metas = doc.getElementsByTagName( 'meta' );
         for ( var i = 0; i < metas.length; i++ ) {
             if ( metas[i].getAttribute( "name" ) === name ) {
                 return metas[i].getAttribute( "content" );
@@ -79,8 +81,8 @@ export default class MainSection extends Component {
         }
         return "";
     }
-    getMetadataOG( property ) {
-        var metas = document.getElementsByTagName( 'meta' );
+    getMetadataOG( property, doc ) {
+        var metas = doc.getElementsByTagName( 'meta' );
         for ( var i = 0; i < metas.length; i++ ) {
             if ( metas[i].getAttribute( "property" ) === property ) {
                 return metas[i].getAttribute( "content" );
@@ -95,22 +97,23 @@ export default class MainSection extends Component {
                 count: this.state.count + 1
             } );
         }, 1000 );
-        chrome.tabs.query( { 'active': true, 'lastFocusedWindow': true }, function ( tabs ) {
-            this.setState({url: tabs[0].url});
-        } );
-        const title = this.getMetadata( 'title' ) || this.getMetadataOG( 'og:title' ) || document.getElementsByTagName( 'title' );
+        chrome.tabs.query( { 'active': true, 'lastFocusedWindow': true }, ( tabs ) => {
+            $.get( tabs[0].url, ( html ) => {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html')
+                const title = this.getMetadata( 'title', doc ) || this.getMetadataOG( 'og:title', doc ) || doc.getElementsByTagName( 'title' );
+                const keywords = this.getMetadata( 'news_keywords', doc ) || this.getMetadata( 'keywords', doc ) || this.getMetadataOG( 'keywords', doc );
+                const description = this.getMetadata( 'description', doc );
+                this.setState( { title, keywords, description, url: tabs[0].url } );
+                document.addEventListener( 'click', () => {
+                    this.setState( {
+                        sidebarOpen: !sidebarOpen
+                    } )
+                } )
+            } ).bind( this );
+        } ).bind( this );
 
-        const keywords = this.getMetadata( 'news_keywords' ) || this.getMetadata( 'keywords' ) || this.getMetadataOG( 'keywords' );
 
-        const description = this.getMetadata( 'description' );
-        this.setState( { title } );
-        this.setState( { keywords } );
-        this.setState( { description } );
-        document.addEventListener( 'click', () => {
-            this.setState( {
-                sidebarOpen: !sidebarOpen
-            } )
-        } )
     }
 
     render() {
@@ -127,7 +130,7 @@ export default class MainSection extends Component {
             <section className={ style.main }>
                 <div style={ { zIndex: 9999, backgroundColor: 'white' } }>
                     <h3>{ this.state.message }</h3>
-                    <h3>URL: { document.baseURI }</h3>
+                    <h3>URL: { this.state.url }</h3>
                     <h3>Title: { this.state.title }</h3>
                     <h3>Description: { this.state.description }</h3>
                     <h3>Keywords: { this.state.keywords }</h3>

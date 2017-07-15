@@ -25,6 +25,5 @@
       "css": [],
       "js": ["js/content.bundle.js"]
     }
-  ],
-  "content_security_policy": "default-src 'self'; script-src 'self'; style-src * 'unsafe-inline'; img-src 'self' data:;"
+  ]
 }
