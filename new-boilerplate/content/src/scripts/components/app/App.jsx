@@ -2,7 +2,6 @@ import React, {Component, Text} from 'react';
 import Sidebar from 'react-sidebar';
 
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -50,6 +49,11 @@ class App extends Component {
     this.setState({title});
     this.setState({keywords});
     this.setState({description});
+    document.addEventListener('click', () => {
+      this.setState({
+        sidebarOpen: !sidebarOpen
+      })
+    })
   }
 
   render() {
